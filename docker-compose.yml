@@ -1,0 +1,10 @@
+services:
+  nginx_tsl:
+    build:
+      context: .
+      dockerfile: ./nginxTsl/Dockerfile
+    volumes:
+      - ./nginxTsl/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+      - "443:443"
