@@ -13,7 +13,7 @@ RUN chown -R mysql:mysql /var/run/mysqld
 # RUN ls -la /var/run/mysqld
 
 # Copy the configuration file
-COPY ./requirements/MariaDb/conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
+COPY ./requirement/MariaDb/conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 # Copy the script that will start the server
 # COPY ./MariaDb/tools/start.sh /tmp/start.sh

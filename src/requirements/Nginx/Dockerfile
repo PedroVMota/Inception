@@ -1,12 +1,11 @@
 # Start from the alpine-based Nginx image
-FROM alpine
-
+FROM alpine:3.12
 
 # Update the package list and install openssl and nginx
 RUN apk update && apk add openssl nginx
 
 # Copy the Nginx configuration file
-COPY ./Nginx/conf/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./requirements/Nginx/conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN mkdir -p /etc/nginx/ssl
 # Generate a self-signed certificate
