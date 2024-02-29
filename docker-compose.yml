@@ -1,10 +1,39 @@
 services:
-  nginx_tsl:
+  # nginx_tsl:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Nginx/Dockerfile
+  #   volumes:
+  #     - ./Nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+  #     - ./Nginx/html:/usr/share/nginx/html
+  #   ports:
+  #     - "443:443"
+  mariadb:
     build:
       context: .
-      dockerfile: ./nginxTsl/Dockerfile
+      dockerfile: ./MariaDB/Dockerfile
+    env_file:
+      - .env
     volumes:
-      - ./nginxTsl/nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - "80:80"
-      - "443:443"
+      - db_data:/var/lib/mysql
+
+volumes:
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./wp_data
+  db_data:
+    
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./db_data
+
+
+
+networks:
+  network:
+    driver: bridge
