@@ -1,0 +1,3 @@
+./src/db_data/*
+./src/wp_data/*
+.env
