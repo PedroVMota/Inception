@@ -4,7 +4,7 @@ all:
 down:
 	@docker-compose -f ./src/docker-compose.yml down
 
-re:
+re: clean
 	@docker-compose -f ./src/docker-compose.yml down
 	@docker-compose -f ./src/docker-compose.yml up -d --build
 
