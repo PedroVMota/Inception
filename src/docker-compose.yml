@@ -7,6 +7,9 @@ services:
       - ./wp_data:/var/www/html
     ports:
       - "443:443"
+    env_file:
+      - .env
+
   wordpress:
     build:
       context: .
@@ -18,28 +21,14 @@ services:
     restart: always
     env_file:
       - .env
-    environment:
-      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
-      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
-      DOMAIN_NAME: ${DOMAIN_NAME}
-      WORDPRESS_TITLE: ${WORDPRESS_TITLE}
-      WORDPRESS_ADMIN: ${WORDPRESS_ADMIN_USER}
-      WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
-      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
-
-
+    ports:
+      - "9000"
   mariadb:
     build:
       context: .
       dockerfile: ./requirements/MariaDb/Dockerfile
     env_file:
       - .env
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
     volumes:
       - db_data:/var/lib/mysql
 
@@ -49,13 +38,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./wp_data
+      device: ./src/wp_data
   db_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./db_data
+      device: ./src/db_data
 
 
 

@@ -1,16 +1,16 @@
-FROM debian:buster
+FROM	debian:bullseye
 
+RUN     apt-get update && \
+		apt-get install -y  \
+		php php-mysql php-fpm php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip mariadb-server mariadb-client curl
 
-# Install the required packages
-RUN apt update && apt install -y php php-curl php-fpm php-bcmath php-gd php-soap php-zip php-curl php-mbstring php-mysqlnd php-gd php-xml php-intl php-zip
+RUN 	mkdir -p /var/run/ ; mkdir -p /run/php/
 
-RUN apt install curl -y
+COPY	./requirements/Wordpress/tools/start.sh /
+COPY	./requirements/Wordpress/conf/www.conf /etc/php/7.4/fpm/pool.debian
+COPY 	./requirements/Wordpress/conf/wp-config.php /
+RUN 	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+		chmod +x wp-cli.phar && \
+		mv wp-cli.phar /usr/local/bin/wp
 
-COPY ./requirements/Wordpress/tools/start.sh /start.sh
-
-COPY ./requirements/Wordpress/tools/wp-config.php /wp-config.php
-
-# setup www.conf
-COPY ./requirements/Wordpress/tools/www.conf /etc/php/7.3/fpm/pool.d/www.conf
-
-CMD ["sh", "/start.sh"]
+ENTRYPOINT ["bash", "start.sh"]

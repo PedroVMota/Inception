@@ -1,55 +1,23 @@
-#!/bin/sh
+sed -ie "s/listen = \/run\/php\/php7.4-fpm.sock/listen = 0.0.0.0:9000/" /etc/php/7.4/fpm/pool.d/www.conf
 
-sleep 10
+if [ ! -f /var/www/html/wp-config.php ]; then
+	cd /var/www/html/
+	mv 	/wp-config.php /var/www/html/
 
-if [ -f "/var/www/html/wp-config.php" ]
-then 
-	echo "wordpress already downloaded"
-else
-	mkdir -p /var/www/html
-	mkdir -p /var/run
+	sed -i "s/__MYSQL_DATABASE__/'$MYSQL_DATABASE'/g" /var/www/html/wp-config.php
+	sed -i "s/__MYSQL_USER__/'$MYSQL_USER'/g" /var/www/html/wp-config.php
+	sed -i "s/__MYSQL_PASSWORD__/'$MYSQL_PASSWORD'/g" /var/www/html/wp-config.php
+	sed -i "s/__DB_HOST__/'$DB_HOST'/g" /var/www/html/wp-config.php
 	
-	cd /var/www/html
-	# dl la base de worpdress
-	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-	
-	chmod +x wp-cli.phar
-		
-	mv wp-cli.phar /usr/local/bin/wp
-	
-	#dl worpress
-	
-	wp core download --allow-root --version=latest --force
+	wp core download --allow-root
+	until mysqladmin -hmariadb -u${MYSQL_USER} -p${MYSQL_PASSWORD} ping; do
+       sleep 2
+    done
+	wp config create --dbname=${MYSQL_DATABASE} --dbuser=${MYSQL_USER} --dbpass=${MYSQL_PASSWORD} --dbhost=mariadb:3306 --dbcharset="utf8" --dbcollate="utf8_general_ci" --allow-root
+	wp core install --url=${WP_URL} --title="${WP_TITLE}" --admin_user=${WP_ADMIN} --admin_password=${WP_ADMIN_PASSWORD} --admin_email="$WP_ADMIN@student.42.fr" --allow-root
+	wp user create ${WP_USER} "$WP_USER"@user.com --role=author --user_pass=${WP_USER_PASSWORD} --allow-root
 
-	#config de wordpress
-	
-	mv wp-config-sample.php wp-config.php
-
-	sed -i "s/username_here/$WORDPRESS_DB_USER/g" wp-config.php
-		
-	sed -i "s/password_here/$WORDPRESS_DB_PASSWORD/g" wp-config.php
-		
-	sed -i "s/localhost/$WORDPRESS_DB_HOST/g" wp-config.php
-		
-	sed -i "s/database_name_here/$WORDPRESS_DB_NAME/g" wp-config.php
-	
-	#finalise l'instalation est creation de l'admin
-	
-	wp core install \
-	--allow-root \
-	--url=${DOMAIN_NAME} \
-	--title=\'${WORDPRESS_TITLE}\' \
-	--admin_user=\'${WORDPRESS_ADMIN}\' \
-	--admin_password=${WORDPRESS_MPADMIN} \
-	--admin_email=${WORDPRESS_EMAIL} \
-	--skip-email
-	
-	#cree le 2eme user
-	
-	wp user create --allow-root --path=/var/www/html $WORPRESS_USER $WORDPRESS_EMAIL_USER --role=contributor --user_pass=$WORDPRESS_PASSWORD
-	touch /var/www/html/.up
-		
 fi
 
 
-/usr/sbin/php-fpm7.3
+exec /usr/sbin/php-fpm7.4 -F
