@@ -1,12 +1,12 @@
 all:
-	@docker-compose -f ./src/docker-compose.yml up --build
+	@docker-compose -f ./src/docker-compose.yml up -d --build
 
 down:
 	@docker-compose -f ./src/docker-compose.yml down
 
 re:
 	@docker-compose -f ./src/docker-compose.yml down
-	@docker-compose -f ./src/docker-compose.yml up --build
+	@docker-compose -f ./src/docker-compose.yml up -d --build
 
 volumes:
 	mkdir -p ./src/wp_data;

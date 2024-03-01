@@ -11,8 +11,13 @@ RUN mkdir -p /etc/nginx/ssl
 # Generate a self-signed certificate
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt -subj "/C=PT/ST=Lisbon/L=Lisbon/O=42/OU=42/CN=pvital-"
 
+# copy fastcgi-php.conf to the container
+COPY ./requirements/Nginx/conf/fastcgi-php.conf /etc/nginx/fastcgi-php.conf
+
+
 # Expose the port
 EXPOSE 443
 
 # Start the Nginx server
 CMD ["nginx", "-g", "daemon off;"]
+
