@@ -1,14 +1,8 @@
-echo "DATABASE: ${MYSQL_DATABASE}"
-ls /var/lib/mysql | tr "\n" " "
-echo "\n\n"
 if [ ! -d /var/lib/mysql/${MYSQL_DATABASE} ]; then
-    echo "Database ${MYSQL_DATABASE} not found. Creating..."
-    echo "\n\n"
     mysqld&
     until mysqladmin ping; do
-        sleep 2
+        continue
     done
-    echo "\n\n"
     mysql -u root -e "CREATE DATABASE ${MYSQL_DATABASE};"
     mysql -u root -e "CREATE USER '${MYSQL_ROOT_USER}'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
     mysql -u root -e "GRANT ALL ON *.* TO '${MYSQL_ROOT_USER}'@'%';"

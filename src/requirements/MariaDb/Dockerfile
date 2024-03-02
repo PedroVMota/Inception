@@ -1,28 +1,17 @@
-# Selecting the base image
-FROM debian:bullseye
+FROM	debian:buster
 
-# Installing the required packages
-RUN apt-get update -y && apt-get install mariadb-server -y
+RUN     apt-get update -y && \
+		apt-get install mariadb-server -y
 
-#Start the deamon of sql
-RUN mkdir -p /var/run/mysqld
+RUN		mkdir -p /var/run/mysqld && mkdir -p /run/mysqld
+RUN     chown -R mysql:root /run/mysqld && chown -R mysql:root /var/run/mysqld
 
-# making sure that the folder is owned by the mysql user
-RUN chown -R mysql:mysql /var/run/mysqld
 
-# RUN ls -la /var/run/mysqld
+COPY	./requirements/MariaDb/tools/start.sh /start.sh
+COPY	./requirements/MariaDb/conf/mariadb-server.cnf /etc/mysql/my.cnf
 
-# Copy the configuration file
-COPY ./requirements/MariaDb/conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
-
-# Copy the script that will start the server
-# COPY ./MariaDb/tools/start.sh /tmp/start.sh
-
-# Expose the port
 EXPOSE 3306
 
-COPY ./requirements/MariaDb/tools/start.sh start.sh
+RUN chmod +x /start.sh
 
-
-ENTRYPOINT ["sh", "start.sh"]
-
+CMD		["bash", "/start.sh"]
