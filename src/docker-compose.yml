@@ -1,0 +1,67 @@
+services:
+  nginx_tsl:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./requirements/Nginx/Dockerfile
+    volumes:
+      - ./wp_data:/var/www/html
+    ports:
+      - "443:443"
+    env_file:
+      - .env
+    networks:
+      - network
+    extra_hosts:
+      - "www.pvital.42:0.0.0.0"
+      - "pvital.42:0.0.0.0"
+    depends_on:
+      - wordpress
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: .
+      dockerfile: ./requirements/Wordpress/Dockerfile
+    depends_on:
+      - mariadb
+    volumes:
+      - wp_data:/var/www/html
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "9000"
+    networks:
+      - network
+  mariadb:
+    container_name: mariadb
+    build:
+      context: .
+      dockerfile: ./requirements/MariaDb/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - network
+
+volumes:
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./src/wp_data
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./src/db_data
+
+networks:
+  network:
+    driver: bridge
