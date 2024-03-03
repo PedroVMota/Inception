@@ -1,17 +1,17 @@
-FROM	debian:buster
+FROM debian:11
 
-RUN     apt-get update -y && \
-		apt-get install mariadb-server -y
+RUN apt-get update && apt-get install -y mariadb-server && rm -rf /var/lib/apt/lists/*
 
-RUN		mkdir -p /var/run/mysqld && mkdir -p /run/mysqld
-RUN     chown -R mysql:root /run/mysqld && chown -R mysql:root /var/run/mysqld
+RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
+RUN mkdir -p /var/run/mysqld && \
+    chown -R mysql:mysql /var/run/mysqld && \
+    chmod 777 /var/run/mysqld
 
+COPY ./requirements/MariaDb/tools/start.sh .
 
-COPY	./requirements/MariaDb/tools/start.sh /start.sh
-COPY	./requirements/MariaDb/conf/mariadb-server.cnf /etc/mysql/my.cnf
+COPY ./requirements/Wordpress/conf/wp-config.php /var/www/html/
+RUN chmod 777 /start.sh
 
 EXPOSE 3306
 
-RUN chmod +x /start.sh
-
-CMD		["bash", "/start.sh"]
+CMD ["bash", "start.sh"]

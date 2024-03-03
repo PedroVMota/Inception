@@ -1,4 +1,4 @@
-all:
+all: del
 	@docker-compose -f ./src/docker-compose.yml up -d --build
 
 down:

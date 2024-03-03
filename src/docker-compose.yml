@@ -54,13 +54,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./wp_data
+      device: ./src/wp_data
   db_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./db_data
+      device: ./src/db_data
 
 networks:
   network:
