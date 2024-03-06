@@ -1,17 +1,24 @@
 FROM debian:11
 
+# install the software to the system
 RUN apt-get update && apt-get install -y mariadb-server && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
-RUN mkdir -p /var/run/mysqld && \
-    chown -R mysql:mysql /var/run/mysqld && \
-    chmod 777 /var/run/mysqld
+# Create the mysqlfolder and set the right permissions
+RUN mkdir -p /run/mysqld
+RUN chown -R mysql:mysql /run/mysqld
 
+RUN mkdir -p /var/run/mysqld
+RUN chown -R mysql:mysql /var/run/mysqld 
+RUN chmod 777 /var/run/mysqld
+
+# Copy the start.sh file to the container
 COPY ./requirements/MariaDb/tools/start.sh .
 
-COPY ./requirements/Wordpress/conf/wp-config.php /var/www/html/
+# Set the right permissions to the start.sh file
 RUN chmod 777 /start.sh
 
+# Expose the port 3306
 EXPOSE 3306
 
+# Start the container with the start.sh file
 CMD ["bash", "start.sh"]

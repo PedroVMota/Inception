@@ -1,23 +1,19 @@
 services:
-  nginx_tsl:
-    container_name: nginx
-    build:
-      context: .
-      dockerfile: ./requirements/Nginx/Dockerfile
-    volumes:
-      - ./wp_data:/var/www/html
-    ports:
-      - "443:443"
-    env_file:
+# ================================== MARIADB SERVICE ==================================
+  mariadb: # This is the name of the service
+    container_name: mariadb #This is the name of the container
+    build: #This is used to specify the build context and the Dockerfile to use
+      context: . #This is the build context
+      dockerfile: ./requirements/MariaDb/Dockerfile #This is the path to the Dockerfile
+    env_file: #This is used to specify the environment file to use
       - .env
-    networks:
+    ports: #This is used to specify the ports to expose
+      - "3306:3306"
+    volumes: #This is used to specify the volumes to use
+      - db_data:/var/lib/mysql
+    networks: #This is used to specify the networks to use
       - network
-    extra_hosts:
-      - "www.pvital.42:0.0.0.0"
-      - "pvital.42:0.0.0.0"
-    depends_on:
-      - wordpress
-
+# ================================== WORDPRESS SERVICE ==================================
   wordpress:
     container_name: wordpress
     build:
@@ -34,19 +30,25 @@ services:
       - "9000"
     networks:
       - network
-  mariadb:
-    container_name: mariadb
+# ================================== NGINX SERVICE ==================================
+  nginx_tsl:
+    container_name: nginx
     build:
-      context: .
-      dockerfile: ./requirements/MariaDb/Dockerfile
+      context: . 
+      dockerfile: ./requirements/Nginx/Dockerfile
+    volumes:
+      - wp_data:/var/www/html
+    ports:
+      - "443:443"
     env_file:
       - .env
-    ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
     networks:
       - network
+    depends_on:
+      - wordpress
+ 
+#Volumes act as a data storage for the containers
+#They can be used to share data between containers and the host machine
 
 volumes:
   wp_data:
@@ -54,14 +56,22 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./src/wp_data
+      device: /home/pvital-m/wp_data
+  #This volume is used to store the database data
   db_data:
+    #The driver is set to local, which means that the volume is stored on the host machine
     driver: local
+    #The driver_opts are used to specify the type of volume and the device to use
     driver_opts:
+      #The type is set to none, which means that the volume is not managed by Docker
       type: none
+      #O is set to bind, which means that the volume is mounted to the specified device
       o: bind
-      device: ./src/db_data
+      #The device is set to the path where the database data is stored on the host machine
+      device: /home/pvital-m/db_data
 
+#Networks are used to connect containers together
+#They can be used to isolate containers from the host machine and other containers
 networks:
   network:
     driver: bridge
