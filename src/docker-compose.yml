@@ -12,6 +12,7 @@ services:
       - db_data:/var/lib/mysql
     networks: #This is used to specify the networks to use
       - network
+    restart: always
 # ================================== WORDPRESS SERVICE ==================================
   wordpress:
     container_name: wordpress
@@ -28,6 +29,7 @@ services:
       - "9000"
     networks:
       - network
+    restart: always
 # ================================== NGINX SERVICE ==================================
   nginx_tsl:
     container_name: nginx
@@ -43,10 +45,10 @@ services:
       - network
     depends_on:
       - wordpress
+    restart: always
  
-#Volumes act as a data storage for the containers
-#They can be used to share data between containers and the host machine
-
+# Volumes act as a data storage for the containers
+# They can be used to share data between containers and the host machine
 volumes:
   wp_data:
     driver: local
