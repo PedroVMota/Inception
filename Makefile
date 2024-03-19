@@ -9,14 +9,13 @@ re: clean
 	@docker-compose -f ./src/docker-compose.yml up -d --build
 
 volumes:
-	mkdir -p /home/pvital-m/wp_data/;
-	mkdir -p /home/pvital-m/db_data/;
+	mkdir -p /home/pvital-m/data/wp_data/;
+	mkdir -p /home/pvital-m/data/db_data/;
 
-del:
-	- sudo rm -rf /home/pvital-m/wp_data/*; sudo rm -rf /home/pvital-m/db_data/*;
+clean:
+	- sudo rm -rf /home/pvital-m/data/wp_data/*; sudo rm -rf /home/pvital-m/data/db_data/*;
 
-
-clean: del
+fclean:
 	- docker stop $$(docker ps -a -q)
 	- docker rm $$(docker ps -a -q)
 	- docker rmi $$(docker images -q)

@@ -3,8 +3,7 @@ services:
   mariadb: # This is the name of the service
     container_name: mariadb #This is the name of the container
     build: #This is used to specify the build context and the Dockerfile to use
-      context: . #This is the build context
-      dockerfile: ./requirements/MariaDb/Dockerfile #This is the path to the Dockerfile
+      context: ./requirements/MariaDb/ #This is the path to the Dockerfile
     env_file: #This is used to specify the environment file to use
       - .env
     ports: #This is used to specify the ports to expose
@@ -17,8 +16,7 @@ services:
   wordpress:
     container_name: wordpress
     build:
-      context: .
-      dockerfile: ./requirements/Wordpress/Dockerfile
+      context: ./requirements/Wordpress/
     depends_on:
       - mariadb
     volumes:
@@ -34,8 +32,7 @@ services:
   nginx_tsl:
     container_name: nginx
     build:
-      context: . 
-      dockerfile: ./requirements/Nginx/Dockerfile
+      context: ./requirements/Nginx/
     volumes:
       - wp_data:/var/www/html
     ports:
@@ -56,7 +53,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/pvital-m/wp_data
+      device: /home/pvital-m/data/wp_data
   #This volume is used to store the database data
   db_data:
     #The driver is set to local, which means that the volume is stored on the host machine
@@ -68,7 +65,7 @@ volumes:
       #O is set to bind, which means that the volume is mounted to the specified device
       o: bind
       #The device is set to the path where the database data is stored on the host machine
-      device: /home/pvital-m/db_data
+      device: /home/pvital-m/data/db_data
 
 #Networks are used to connect containers together
 #They can be used to isolate containers from the host machine and other containers

@@ -7,7 +7,7 @@ RUN     apt-get install nginx openssl libssl-dev wget -yq
 
 # # Copy the Nginx configuration file
 RUN rm -rf /etc/nginx/conf.d/nginx.conf
-COPY ./requirements/Nginx/conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /etc/nginx/ssl
 # Generate a self-signed certificate
@@ -20,7 +20,7 @@ RUN mkdir -p /var/log/nginx/pvital-m/
 # # Expose the port
 EXPOSE 443
 
-COPY ./requirements/Nginx/tools/start.sh /start.sh
+COPY ./tools/start.sh /start.sh
 
 # # Start the Nginx server
 ENTRYPOINT ["bash", "start.sh"]

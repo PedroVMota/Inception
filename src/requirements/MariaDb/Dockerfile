@@ -1,4 +1,4 @@
-FROM debian:11
+FROM debian:bullseye
 
 # install the software to the system
 RUN apt-get update && apt-get install -y mariadb-server && rm -rf /var/lib/apt/lists/*
@@ -12,7 +12,7 @@ RUN chown -R mysql:mysql /var/run/mysqld
 RUN chmod 777 /var/run/mysqld
 
 # Copy the start.sh file to the container
-COPY ./requirements/MariaDb/tools/start.sh .
+COPY ./tools/start.sh .
 
 # Set the right permissions to the start.sh file
 RUN chmod 777 /start.sh
