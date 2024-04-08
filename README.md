@@ -19,9 +19,6 @@ You will be lost and you will not understand properly how it works. Do it step b
 
 You want to try if each container works in general? No worries, you will be able to do it by importing images for wordpress and mariaDB from the hub. (if you read this for the first time, I invite you to begin to read this beautiful READ.ME and put a star on it! It helps!)
 
-- The 2 github which helped me a lot for the project : [llescure](https://github.com/llescure/42_Inception) and [malatini](https://github.com/42cursus/inception)
-- This github which helped me for the bonus [twagger](https://github.com/twagger/inception)  
-
 # SUMMARY
 
 1. [DEFINITIONS](https://github.com/PedroVMota/Inception/blob/main/README.md#definitions)
@@ -268,3 +265,6 @@ mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.s
 	SELECT wp_users.display_name FROM wp_users; // display username from wordpress database
 	SELECT *  FROM wp_users; // select
 ```
+
+# Report
+In case of any error on read me or if you want to add some information, please generate a inssue on the project. I will be happy to help you and to improve the project
