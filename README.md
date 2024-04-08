@@ -24,11 +24,11 @@ You want to try if each container works in general? No worries, you will be able
 
 # SUMMARY
 
-### 1. [DEFINITIONS](https://github.com/PedroVMota/Inception/blob/main/README.md#definitions)
-### 2. [DOCKER](https://github.com/PedroVMota/Inception/blob/main/README.md#Docker)
-### 3. [NGINX](https://github.com/PedroVMota/Inception/blob/main/README.md#NGINX)
-### 4. [WORDPRESS](https://github.com/PedroVMota/Inception/blob/main/README.md#WORDPRESS)
-### 4. [MARIADB](https://github.com/PedroVMota/Inception/blob/main/README.md#MARIADB)
+1. [DEFINITIONS](https://github.com/PedroVMota/Inception/blob/main/README.md#definitions)
+2. [DOCKER](https://github.com/PedroVMota/Inception/blob/main/README.md#Docker)
+3. [NGINX](https://github.com/PedroVMota/Inception/blob/main/README.md#NGINX)
+4. [WORDPRESS](https://github.com/PedroVMota/Inception/blob/main/README.md#WORDPRESS)
+4. [MARIADB](https://github.com/PedroVMota/Inception/blob/main/README.md#MARIADB)
 
 # Definitions
 ## What is a docker ?
