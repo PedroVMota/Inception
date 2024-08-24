@@ -1,56 +1,56 @@
 # Inception
 
-This project from 42 school aims to broaden your knowledge of system administration by using Docker. IIn this tutorial You will virtualize several Docker images, creating them in your new personal virtual machine. In this read.me you will have an inception tutorial to know how the project works.
+This project from 42 School aims to broaden your knowledge of system administration by using Docker. In this tutorial, you will virtualize several Docker images, creating them in your new personal virtual machine. This README provides an inception tutorial to help you understand how the project works.
 
-## Important things to read before beginning the project
+## Important Things to Read Before Beginning the Project
 
-1. **Don't try to do all the containers** (Nginx, wordpress and mariaDB) at the same time.
-You will be lost and you will not understand properly how it works. Do it step by step.
+1. **Don't try to create all the containers** (Nginx, WordPress, and MariaDB) at the same time.
+You might get overwhelmed and not fully understand how it works. Take it step by step.
 
-2. **Begin with Nginx** by displaying an index.html page 
-	- Learn first how to launch a docker image && to execute this image **without using docker-compose**
-	- Learn How to display an html page on http://localhost:80"
-	- Learn how to display an html page with SSL on http://localhost:443"
+2. **Start with Nginx** by displaying an index.html page.
+	- First, learn how to launch a Docker image and execute it **without using docker-compose**.
+	- Learn how to display an HTML page on `http://localhost:80`.
+	- Learn how to display an HTML page with SSL on `https://localhost:443`.
 
-3. **Do wordpress**
-	- You can begin from here the docker-compose file, you don't need it before
+3. **Move on to WordPress.**
+	- At this point, you can begin using the docker-compose file. You don't need it before.
 
 4. **Finish with MariaDB.**
 
-You want to try if each container works in general? No worries, you will be able to do it by importing images for wordpress and mariaDB from the hub. (if you read this for the first time, I invite you to begin to read this beautiful READ.ME and put a star on it! It helps!)
+Want to check if each container works individually? No worries, you can do this by importing WordPress and MariaDB images from Docker Hub. (If this is your first time reading this, I encourage you to continue with this README and give it a star! It helps!)
 
 # SUMMARY
 
-1. [DEFINITIONS](https://github.com/PedroVMota/Inception/blob/main/README.md#definitions)
-2. [DOCKER](https://github.com/PedroVMota/Inception/blob/main/README.md#Docker)
-3. [NGINX](https://github.com/PedroVMota/Inception/blob/main/README.md#NGINX)
-4. [WORDPRESS](https://github.com/PedroVMota/Inception/blob/main/README.md#WORDPRESS)
-4. [MARIADB](https://github.com/PedroVMota/Inception/blob/main/README.md#MARIADB)
+1. [DEFINITIONS](#definitions)
+2. [DOCKER](#docker)
+3. [NGINX](#nginx)
+4. [WORDPRESS](#wordpress)
+5. [MARIADB](#mariadb)
 
 # Definitions
-## What is a docker ?
-Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure in the same ways you manage your applications. By taking advantage of Docker’s methodologies for shipping, testing, and deploying code quickly, you can significantly reduce the delay between writing code and running it in production.
+
+## What is Docker?
+Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure the same way you manage your applications. By taking advantage of Docker’s methodologies for shipping, testing, and deploying code quickly, you can significantly reduce the time between writing code and running it in production.
 Docker provides the ability to package and run an application in a loosely isolated environment called a container.
 
-## What is a docker-compose ?
-[What is docker in general](https://www.educative.io/blog/docker-compose-tutorial)
-[What is docker network](https://www.aquasec.com/cloud-native-academy/docker-container/docker-networking/)
+## What is Docker Compose?
+[What is Docker in general?](https://www.educative.io/blog/docker-compose-tutorial)
+[What is Docker networking?](https://www.aquasec.com/cloud-native-academy/docker-container/docker-networking/)
 Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
 
-## What is a docker-file ?
-Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using docker build users can create an automated build that executes several command-line instructions in succession.
+## What is a Dockerfile?
+Docker can build images automatically by reading the instructions from a Dockerfile. A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using `docker build`, users can create an automated build that executes several command-line instructions in succession.
 
-## How to install docker on MACOS
-For this project, I am on my personal mac so I don't need to use the virtual machine to use a sudo command.
-I had to install docker. First, you need:
-- I went directly to the docker website and I downloaded docker [Link to the website](https://docs.docker.com/desktop/install/mac-install/)
-- I installed docker on the machine
-- I tested to run a dockerfile thanks to the command docker run hello-world
+## How to Install Docker on macOS
+For this project, I am using my personal Mac, so I don't need to use a virtual machine to run sudo commands. To install Docker, follow these steps:
+- Go to the Docker website and download Docker [Link to the website](https://docs.docker.com/desktop/install/mac-install/).
+- Install Docker on your machine.
+- Test the installation by running a Dockerfile using the command `docker run hello-world`.
 
-## Useful things to know about inception dockers and containers
-- On the mac, Apache service is installed by default. I deleted Apache from my computer to avoid any problem with nginx
-- If you are at 42 on their computer you should stop these services which are running by default
-```c
+## Useful Things to Know About Inception, Docker, and Containers
+- On a Mac, the Apache service is installed by default. I removed Apache from my computer to avoid any conflicts with Nginx.
+- If you are at 42 School and using their computers, you should stop these services, which run by default:
+```bash
 sudo service nginx stop
 sudo service mariadb stop
 sudo service apache2 stop
@@ -59,212 +59,212 @@ sudo service mysql stop
 
 # DOCKER
 
-## Important commands to use docker
+## Important Commands for Using Docker
 - [Best practices for building containers](https://cloud.google.com/architecture/best-practices-for-building-containers)
 
-### General docker commands
-```c
-- docker ps or docker ps -a //show the names of all the containers you have + the id you need and the port associated.
-- docker pull "NameOfTheImage" // pull an image from dockerhub
-- docker "Three first letter of your docker" // show the logs of your last run of dockers
-- docker rm $(docker ps -a -q) //allow to delete all the opened images
-- docker exec -it "Three first letter of your docker" sh // to execute the program with the shell
+### General Docker Commands
+```bash
+- docker ps or docker ps -a # Shows the names of all containers you have, along with their IDs and associated ports.
+- docker pull "NameOfTheImage" # Pulls an image from Docker Hub.
+- docker logs "ContainerNameOrID" # Displays the logs of the specified container.
+- docker rm $(docker ps -a -q) # Deletes all stopped containers.
+- docker exec -it "ContainerNameOrID" sh # Executes a shell inside the specified container.
 ```
 
-### Docker run
+### Docker Run
 
-```c
-- docker run "name of the docker image" //to run the docker image
-- docker run -d, // run container in background
-- docker run -p,// publish a container's port to the host
-- docker run -P, // publish all exposed port to random ports
-- docker run -it "imageName", //le programme continuera de fonctionner et on pourra interagir avec le container
-- docker run -name sl mysql, //give a name for the container instead an ID
+```bash
+- docker run "ImageName" # Runs the specified Docker image.
+- docker run -d # Runs the container in the background.
+- docker run -p # Publishes a container's port to the host.
+- docker run -P # Publishes all exposed ports to random ports.
+- docker run -it "ImageName" # The program will continue to run, and you can interact with the container.
+- docker run --name "ContainerName" mysql # Assigns a name to the container instead of an ID.
 - docker run -d -p 7000:80 test:latest
 ```
 
-### Docker image
-```c
-- docker image rm -f "image name/id", //delete the image, if the image is running you need to kill it first.
-- docker image kill "name", //stop a running image,
+### Docker Image
+```bash
+- docker image rm -f "ImageNameOrID" # Deletes the image; if the image is running, you need to stop it first.
+- docker image kill "ContainerNameOrID" # Stops a running image.
 ```
 
-## How to write a docker file
-- Create a filename dockerfile
-- Write your command inside the doc
-- Build the dockerfile with the command "docker build -t "nameYouChoose"."
-- Execute the dockerfile with the command: docker run "nameYouChoose"
+## How to Write a Dockerfile
+- Create a file named `Dockerfile`.
+- Write your commands inside the document.
+- Build the Dockerfile with the command `docker build -t "YourChosenName" .`.
+- Execute the Dockerfile with the command `docker run "YourChosenName"`.
 
 Here are the most common types of instructions:
 
-- FROM <image> - defines a base for your image. exemple : FROM debian
-- RUN <command> - executes any commands in a new layer on top of the current image and commits the result. RUN also has a shell form for running commands.
-- WORKDIR <directory> - sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it in the Dockerfile. (You go directly in the directory you choose)
-- COPY <src> <dest> - copies new files or directories from <src> and adds them to the filesystem of the container at the path <dest>.
-- CMD <command> - lets you define the default program that is run once you start the container based on this image. Each Dockerfile only has one CMD, and only the last CMD instance is respected when multiple ones exist.
+- **FROM <image>** - Defines a base for your image. Example: `FROM debian`.
+- **RUN <command>** - Executes any commands in a new layer on top of the current image and commits the result. RUN also has a shell form for running commands.
+- **WORKDIR <directory>** - Sets the working directory for any `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, and `ADD` instructions that follow it in the Dockerfile.
+- **COPY <src> <dest>** - Copies new files or directories from `<src>` and adds them to the filesystem of the container at the path `<dest>`.
+- **CMD <command>** - Defines the default program that runs once you start the container based on this image. Each Dockerfile should have only one CMD, and only the last CMD is respected if multiple exist.
 
-## How to launch a localhost webpage to test
-### **(this point works only on the mac and not the VM)**
-### [Watch this Video tutorial](<https://www.youtube.com/watch?v=F2il_Mo5yww&ab_channel=linuxxraza>)
-- Create a HTML file with some code in it.
-- Create you dockerfile
-	- The image will be NGINX : FROM NGINX
-	- Use COPY to copy your files into the html directory on NGINX
-- Use the command "docker build -t simple ."
-- Use the command "docker container run --name="nameofyourchoice" -d -p 9000:80 simple"
-	- --name is to give a name to your image
-	- -d run the container in background
-	- -p publish the container's port to the host. In that case 9000 to 80
+## How to Launch a Localhost Webpage for Testing
+### **(This point works only on a Mac, not the VM)**
+### [Watch this Video Tutorial](<https://www.youtube.com/watch?v=F2il_Mo5yww&ab_channel=linuxxraza>)
+- Create an HTML file with some code in it.
+- Create your Dockerfile:
+	- The image will be NGINX: `FROM nginx`.
+	- Use `COPY` to copy your files into the HTML directory on Nginx.
+- Use the command `docker build -t simple .`.
+- Use the command `docker container run --name="YourChosenName" -d -p 9000:80 simple`.
+	- `--name` gives a name to your container.
+	- `-d` runs the container in the background.
+	- `-p` publishes the container's port to the host (in this case, 9000 to 80).
 
 # NGINX
 
-## How to set up NGINX (our web server)
-- [Video tutorial](<http://nginx.org/en/docs/beginners_guide.html>)
-Nginx is a webserver which stores hmtl, js, images files and use http request to display a website.
-Nginx conf documents will be used to config our server and the right proxy connexion.
+## How to Set Up NGINX (Our Web Server)
+- [Video Tutorial](<http://nginx.org/en/docs/beginners_guide.html>)
+Nginx is a web server that stores HTML, JS, and image files and uses HTTP requests to display a website.
+Nginx configuration files will be used to set up our server and the correct proxy connection.
 
-## configure .conf file on nginx
-### useful nginx links
-- [location explanations](<https://www.digitalocean.com/community/tutorials/nginx-location-directive>)
-- [What is a proxy server](<https://www.varonis.com/fr/blog/serveur-proxy>)
-- [All nginx definitions](<http://nginx.org/en/docs/http/ngx_http_core_module.html>)
-- [Nginx Command line](<https://www.nginx.com/resources/wiki/start/topics/tutorials/commandline/>)
-- [PID 1 signal handling && nginx](https://cloud.google.com/architecture/best-practices-for-building-containers#signal-handling)
-- [What is TLS(in french)](https://fr.wikipedia.org/wiki/Transport_Layer_Security)
+## Configuring the .conf File on Nginx
+### Useful Nginx Links
+- [Location Explanations](<https://www.digitalocean.com/community/tutorials/nginx-location-directive>)
+- [What is a Proxy Server?](<https://www.varonis.com/fr/blog/serveur-proxy>)
+- [All Nginx Definitions](<http://nginx.org/en/docs/http/ngx_http_core_module.html>)
+- [Nginx Command Line](<https://www.nginx.com/resources/wiki/start/topics/tutorials/commandline/>)
+- [PID 1 Signal Handling and Nginx](https://cloud.google.com/architecture/best-practices-for-building-containers#signal-handling)
+- [What is TLS? (In French)](https://fr.wikipedia.org/wiki/Transport_Layer_Security)
 
-### Listen && Location
-- Listen will indicate to the server which request it has to accept:
-	Listen can take ports and adresses : exemple Listen 80;
-- The location directive within NGINX server block allows to route request to correct location within the file system.
-	The directive is used to tell NGINX where to look for a resource by including files and folders while matching a location block against an URL.
+### Listen and Location Directives
+- **Listen**: Specifies which requests the server should accept.
+	- Example: `listen 80;` indicates that the server should listen on port 80.
+- **Location**: The location directive within the Nginx server block allows routing requests to the correct location within the filesystem.
+	- It tells Nginx where to look for a resource by including files and folders that match a location block against a URL.
 
-## Steps to add in localhost by configuring 
-### **(this point works only on the mac and not the VM)**
-1. I added to my /var/www/ directory an index html file
-2. I configured the default file in etc/nginx/site-enabled/default
-3. I added a server bracket with a location to var/www/ in the doc. Save it and reload nginx with 'nginx -s reload'.
-4. Because the port host I put when I built was 443. Go to a web page and put: http://localhost:443/. It works!!!!
+## Steps to Add a Localhost by Configuring Nginx
+### **(This point works only on a Mac, not the VM)**
+1. I added an `index.html` file to my `/var/www/` directory.
+2. I configured the default file in `/etc/nginx/sites-enabled/default`.
+3. I added a server block with a location pointing to `/var/www/` in the document. Saved it and reloaded Nginx with `nginx -s reload`.
+4. Since the
 
-## How to change your localhost by vbachele.42.fr
-1. Go to the file /etc/hosts
-2. Add the following line : "127.0.0.1 vbachele.42.fr"
+ port host I configured was 443, I went to a web browser and entered: `https://localhost:443/`. It worked!
 
-## Fastcgi (or how to process PHP with nginx)
-### Useful links
-- [What is http](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
-- [difference between http && tcp](https://www.goanywhere.com/blog/http-vs-tcp-whats-the-difference#:~:text=TCP%20contains%20information%20about%20what,data%20in%20the%20stream%20contains.)
-- [PHP Fast CGI Examples](https://www.nginx.com/resources/wiki/start/topics/examples/phpfcgi/)
-- [Why using fastcgi_pass 127.0.0.1:9000](https://serverfault.com/questions/1094793/what-is-this-nginx-location-for-php-fpm-fastcgi-pass-127-0-0-19000-really-doing)
-- [Install Nginx with php-fpm in video](https://www.youtube.com/watch?v=I_9-xWmkh28&ab_channel=ProgramWithGio)
-- [Fast CGI explanations commands](https://www.digitalocean.com/community/tutorials/understanding-and-implementing-fastcgi-proxying-in-nginx)
+## How to Change Your Localhost to `<yourlogin>.42.fr`
+1. Go to the file `/etc/hosts`.
+2. Add the following line: `127.0.0.1 <yourlogin>.42.fr`.
 
-PHP-FPM (for fast-cgi Process Manager) runs as an isolated service when you use PHP-FPM.
-	Employing this PHP version as the language interpreter means requests will be processed via a TCP/IP socket,
-	and the Nginx server handles HTTP requests only, while PHP-FPM interprets the PHP code. Taking advantage of two separate services is vital to become more efficient.
-	It features with Wordpress
+## FastCGI (or How to Process PHP with Nginx)
+### Useful Links
+- [What is HTTP?](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
+- [Difference Between HTTP and TCP](https://www.goanywhere.com/blog/http-vs-tcp-whats-the-difference#:~:text=TCP%20contains%20information%20about%20what,data%20in%20the%20stream%20contains.)
+- [PHP FastCGI Examples](https://www.nginx.com/resources/wiki/start/topics/examples/phpfcgi/)
+- [Why Use fastcgi_pass 127.0.0.1:9000?](https://serverfault.com/questions/1094793/what-is-this-nginx-location-for-php-fpm-fastcgi-pass-127-0-0-19000-really-doing)
+- [Install Nginx with PHP-FPM Video](https://www.youtube.com/watch?v=I_9-xWmkh28&ab_channel=ProgramWithGio)
+- [FastCGI Explanations and Commands](https://www.digitalocean.com/community/tutorials/understanding-and-implementing-fastcgi-proxying-in-nginx)
 
-# Docker-compose
-- [tutorial open classroom dockercompose](https://openclassrooms.com/fr/courses/2035766-optimisez-votre-deploiement-en-creant-des-conteneurs-avec-docker/6211624-decouvrez-et-installez-docker-compose)
+PHP-FPM (FastCGI Process Manager) runs as an isolated service when you use PHP-FPM.
+	Employing this PHP version as the language interpreter means requests will be processed via a TCP/IP socket, and the Nginx server handles HTTP requests only, while PHP-FPM interprets the PHP code. Utilizing two separate services is essential for efficiency.
+	It integrates well with WordPress.
 
-## Docker-Compose commands
-```c
-- docker-compose up -d --build, //Create and build all the containers and they still run in the background
-- docker-compose ps, //Check the status for all the containers
-- docker-compose logs -f --tail 5, //see the first 5 lines of the logs of your containers
-- docker-compose stop , //stop a stack of your docker compose
-- Docker-compose down, //destroy all your ressources
-- docker-compose config, //check the syntax of you docker-compose file
+# Docker Compose
+- [Docker Compose Tutorial](https://openclassrooms.com/fr/courses/2035766-optimisez-votre-deploiement-en-creant-des-conteneurs-avec-docker/6211624-decouvrez-et-installez-docker-compose)
+
+## Docker Compose Commands
+```bash
+- docker-compose up -d --build # Creates and builds all containers and runs them in the background.
+- docker-compose ps # Checks the status of all containers.
+- docker-compose logs -f --tail 5 # Displays the last 5 lines of logs for your containers.
+- docker-compose stop # Stops all containers in the stack.
+- docker-compose down # Destroys all your resources.
+- docker-compose config # Checks the syntax of your docker-compose file.
 ```
 
-## Inside the docker-compose file
-All the information about what every line means are in this [tutorial](https://openclassrooms.com/fr/courses/2035766-optimisez-votre-deploiement-en-creant-des-conteneurs-avec-docker/6211677-creez-un-fichier-docker-compose-pour-orchestrer-vos-conteneurs)
+## Inside the Docker Compose File
+All the information about what each line means is in this [tutorial](https://openclassrooms.com/fr/courses/2035766-optimisez-votre-deploiement-en-creant-des-conteneurs-avec-docker/6211677-creez-un-fichier-docker-compose-pour-orchestrer-vos-conteneurs).
 
 # WORDPRESS 
-## Useful links
-- [What is the wordpress CLI](https://www.dreamhost.com/wordpress/guide-to-wp-cli/#:~:text=The%20WP%2DCLI%20is%20a,faster%20using%20the%20WP%2DCLI.)  
-- [Know more about wp-config.php](https://wpformation.com/wp-config-php-et-functions-php-fichiers-wordpress/)  
+## Useful Links
+- [What is the WordPress CLI?](https://www.dreamhost.com/wordpress/guide-to-wp-cli/#:~:text=The%20WP%2DCLI%20is%20a,faster%20using%20the%20WP%2DCLI.)  
+- [Learn More About wp-config.php](https://wpformation.com/wp-config-php-et-functions-php-fichiers-wordpress/)  
 - [php-fpm - www.conf](https://myjeeva.com/php-fpm-configuration-101.html)  
 
-*definitions*
-*wp-config.php* This file tells to your database how to get your files and how to treat them
-## What are the steps to create your Wordpress
-1. **Create you dockerfile image**
-	- Download php-fpm
-	- Copy the www.conf file in php/7.3/fpm/pool.d/
-	- Create the php directory to enable php-fpm to run
-	- Copy the script and launch it
-	- Go to the html directory
-	- Launch php-fpm
+*Definitions*:
+*wp-config.php*: This file tells your database how to get your files and how to process them.
 
-2. **Create a script**
-	- Download wordpress
-	- Create the configuration file of wordpress
-	- Move files from wordpress in the html directory
-	- Give the 4th environmental variables for wordpress
+## Steps to Create Your WordPress
+1. **Create Your Dockerfile Image**
+	- Download PHP-FPM.
+	- Copy the `www.conf` file into `php/7.3/fpm/pool.d/`.
+	- Create the PHP directory to enable PHP-FPM to run.
+	- Copy the script and launch it.
+	- Go to the HTML directory.
+	- Launch PHP-FPM.
 
-3. **Create a www.conf**
-You need to edit www.conf and place it in /etc/php/7.3(the usual version of php on 42 vm)/fpm/pool.d and wp-content.php to disable access to the wordpress installation page when you access your site at https://login.42.fr
-	- Put listen = 0.0.0.0:9000 to listen to all ports
-	- Increase the number for the pm values in order to avoid a 502 page
+2. **Create a Script**
+	- Download WordPress.
+	- Create the configuration file for WordPress.
+	- Move the WordPress files into the HTML directory.
+	- Provide the 4 environment variables for WordPress.
+
+3. **Create a www.conf File**
+You need to edit `www.conf` and place it in `/etc/php/7.3/fpm/pool.d` and `wp-config.php` to disable access to the WordPress installation page when you access your site at `https://<yourlogin>.42.fr`.
+	- Set `listen = 0.0.0.0:9000` to listen on all ports.
+	- Increase the `pm` values to avoid a 502 error page.
 
 # MARIADB
-MariaDB will be the database to store information about our wordpress users and settings.
-In this section we have to create the Mariadb image and create 2 users.
+MariaDB will be the database to store information about your WordPress users and settings. In this section, we will create the MariaDB image and set up 2 users.
 
-## Useful links
-- [Import-export databases](https://www.interserver.net/tips/kb/import-export-databases-mysql-command-line/)  
-- [Create and give permissions to a user](https://www.daniloaz.com/en/how-to-create-a-user-in-mysql-mariadb-and-grant-permissions-on-a-specific-database/)  
-- [Why create /var/run/mysqld directory](http://cactogeek.free.fr/autres/DocumentationLinux-Windows/LinuxUbuntu/ProblemeMYSQL-mysqld.sockInexistant.pdf)  
-- [How to give all privileges for a user on a database](https://chartio.com/resources/tutorials/how-to-grant-all-privileges-on-a-database-in-mysql/)  
-- [How to import a data base](https://www.journaldunet.fr/web-tech/developpement/1202663-comment-importer-un-fichier-sql-dans-mysql-en-ligne-de-commande/)  
+## Useful Links
+- [Import-Export Databases](https://www.interserver.net/tips/kb/import-export-databases-mysql-command-line/)  
+- [Create and Grant Permissions to a User](https://www.daniloaz.com/en/how-to-create-a-user-in-mysql-mariadb-and-grant-permissions-on-a-specific-database/)  
+- [Why Create the /var/run/mysqld Directory](http://cactogeek.free.fr/autres/DocumentationLinux-Windows/LinuxUbuntu/ProblemeMYSQL-mysqld.sockInexistant.pdf)  
+- [How to Grant All Privileges to a User on a Database](https://chartio.com/resources/tutorials/how-to-grant-all-privileges-on-a-database-in-mysql/)  
+- [How to Import a Database](https://www.journaldunet.fr/web-tech/developpement/1202663-comment-importer-un-fichier-sql-dans-mysql-en-ligne-de-commande/)  
 
-## MARIADB useful commands
-```c
-mysql -uroot // To connect on mysql CLI
-SELECT User FROM mysql.user; // To see all the users
-USE wordpress // To connect on your wordpress database
-mysqldump -u username -p databasename > filename.sql // To export the file
-mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql // To import the file
+## MariaDB Useful Commands
+```bash
+mysql -uroot # Connect to MySQL CLI.
+SELECT User FROM mysql.user; # View all users.
+USE wordpress; # Connect to your WordPress database.
+mysqldump -u username -p databasename > filename.sql # Export the database to a file.
+mysql -uroot -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /usr/local/bin/wordpress.sql # Import the database from a file.
 ```
 
-## What are the steps to create your own Maria DB image
-1. **Create a dockerfile**
-	- Download mariadb-server && mariadb-client
-	- To run mariaDB on your container, you have to copy your .sh and the .sql on the /var/local/bin/
-	- Give the right to execute your mysqld (which is the daemon for mysql)
-	- Launch your script to install mariaDB
-	- Then do a CMD to enable the database to listen to all the IPV4 adresses.
+## Steps to Create Your Own MariaDB Image
+1. **Create a Dockerfile**
+	- Download `mariadb-server` and `mariadb-client`.
+	- To run MariaDB on your container, copy your `.sh` script and `.sql` file to `/usr/local/bin/`.
+	- Set the correct permissions to execute `mysqld` (the MySQL daemon).
+	- Launch your script to install MariaDB.
+	- Then, use `CMD` to allow the database to listen on all IPv4 addresses.
 
-2. **Create a script (.sh file)**
-	- mysql_install_db initializes the MySQL data directory and creates the system tables that it contains, if they do not exist
-	- In this script we downloaded Maria DB on the container, we have to install it and create the root user
-	- Then we launch the commandline to give all the privileges to the root user. The function GRANT from mysqlcli (sql command line) gives access (or all access) to a user.
+2. **Create a Script (.sh File)**
+	- `mysql_install_db` initializes the MySQL data directory and creates the system tables if they do not exist.
+	- In this script, we downloaded MariaDB on the container, installed it, and created the root user.
+	- Then, we used the `GRANT` function from MySQL CLI to give all privileges to the root user.
 
-3. **Create your file.sql**
-	- 2 options :
-		1. You create the database, the user and you give all privileges to the user
-			as [malatini did](https://github.com/42cursus/inception/blob/validated/srcs/requirements/mariadb/config/create_db.sql)
-		2. You export your own wordpress.sql as I did (and Lea did !!!!)
-			- Step 1: Create your admin user on wordpress:
-				You might don't know what it is, no prob! It means you will export your admin user from your database in order to put it in your .sql file.
-				- Go to your wordpress website (localhost:443) and create your user by using the same username and password as your .env file.
-			- Step 2: Export your admin user.sql
-				You have to go on your mariaDB container and do the following command
-				- mysqldump -u 'username' -p 'databasename' > filename.sql *it will export your user on the filename.sql, please change username, databasename by what you put in your .env file*
-				- You have a file called filename.sql in your current directory
-				- "cat filename.sql" in your container and copy past to your .sql project.
-				- Your .sql is ready now to be imported
-			- Step 3: relaunch your docker-compose
-				- TADA you will be directly in your website by passing the phase of installation
+3. **Create Your File.sql**
+	- 2 options:
+		1. Create the database, the user, and grant all privileges to the user, as [malatini did](https://github.com/42cursus/inception/blob/validated/srcs/requirements/mariadb/config/create_db.sql).
+		2. Export your own `wordpress.sql` as I did (and Lea did!).
+			- Step 1: Create your admin user on WordPress:
+				You might not know what this is, no problem! It means you will export your admin user from your database and include it in your `.sql` file.
+				- Go to your WordPress website (`https://localhost:443`) and create your user using the same username and password as in your `.env` file.
+			- Step 2: Export your admin user.sql:
+				You need to access your MariaDB container and run the following command:
+				- `mysqldump -u 'username' -p 'databasename' > filename.sql` (replace `username` and `databasename` with the values in your `.env` file).
+				- You'll now have a file called `filename.sql` in your current directory.
+				- Use `cat filename.sql` in your container and copy-paste the output into your project’s `.sql` file.
+				- Your `.sql` file is now ready to be imported.
+			- Step 3: Relaunch your docker-compose:
+				- TADA! You will be directly on your website, bypassing the installation phase.
 
-### Commands to check if all is working
-```c
-	SHOW DATABASES; // show the databes
-	use 'wordpress'; // go in the wordpress databse
-	SHOW TABLES; // show all the tables from the database you selected
-	SELECT wp_users.display_name FROM wp_users; // display username from wordpress database
-	SELECT *  FROM wp_users; // select
+### Commands to Check if Everything is Working
+```bash
+SHOW DATABASES; # Show all databases.
+USE wordpress; # Access the WordPress database.
+SHOW TABLES; # Show all tables in the selected database.
+SELECT wp_users.display_name FROM wp_users; # Display the username from the WordPress database.
+SELECT * FROM wp_users; # Select all records from the wp_users table.
 ```
 
 # Report
-In case of any error on read me or if you want to add some information, please generate a inssue on the project. I will be happy to help you and to improve the project
+If you find any errors in this README or if you want to add more information, please create an issue in the project. I will be happy to help and improve the project.
